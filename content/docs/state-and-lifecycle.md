@@ -57,7 +57,7 @@ setInterval(tick, 1000);
 
 [**Încercați-l pe CodePen**](https://codepen.io/gaearon/pen/dpdoYR?editors=0010)
 
-Cu toate acestea, este omisă o cerință crucială: faptul că `Clock` stabilește un cronometru și actualizează interfața de utilizator la fiecare secundă, acesta ar trebui să fie un detaliu de implementare al componentei `Clock`.
+Cu toate acestea, este omisă o cerință crucială: faptul că, `Clock` stabilește un cronometru și actualizează interfața de utilizator la fiecare secundă, ar trebui să fie un detaliu de implementare al componentei `Clock`.
 
 În mod ideal, vrem să apelam o singura dată componenta `Clock`, iar aceasta să se actualizeze singură:
 
@@ -84,7 +84,7 @@ Puteți converti o componentă de tip funcție ca și `Clock` într-o clasă în
 
 3. Mutați corpul funcției în metoda `render()`.
 
-4. Înlocuiți `props` cu `this.props` în corpul` render()`.
+4. Înlocuiți `props` cu `this.props` în corpul metodei `render()`.
 
 5. Ștergeți declarația funcției goale rămase.
 
@@ -105,7 +105,7 @@ class Clock extends React.Component {
 
 `Clock` este acum definită mai degrabă ca o clasă decât ca o funcție.
 
-Metoda `render` va fi apelată de fiecare dată când are loc o actualizare, dar atâta timp cât afisam `<Clock />` în același nod DOM, va fi utilizată doar o singură instanță a clasei` Clock`. Acest lucru ne permite să folosim funcții suplimentare, cum ar fi metodele locale de stare și ciclul de viață.
+Metoda `render` va fi apelată de fiecare dată când are loc o actualizare, dar atâta timp cât componenta `<Clock />` este afisată în același nod DOM, va fi utilizată doar o singură instanță a clasei `Clock`. Acest lucru permite folosirea de funcții suplimentare, cum ar fi metodele locale de stare și ciclul de viață.
 
 ## Adăugarea de stare locală la o clasă {#adding-local-state-to-a-class}
 
@@ -146,7 +146,7 @@ class Clock extends React.Component {
 }
 ```
 
-Rețineți modul trimitem `props` la constructorul de bază:
+Rețineți modul de trimitere `props` la constructorul de bază:
 
 ```js{2}
   constructor(props) {
@@ -155,9 +155,9 @@ Rețineți modul trimitem `props` la constructorul de bază:
   }
 ```
 
-Componentele clasă ar trebui sa apeleze construcorul de bază cu `props`.
+Componentele clasă ar trebui sa apeleze constructorul de bază cu `props`.
 
-3) Stergeti proprietatea `date` din elementul `<Clock />`:
+3) Stergeți proprietatea `date` din elementul `<Clock />`:
 
 ```js{2}
 ReactDOM.render(
@@ -195,9 +195,9 @@ ReactDOM.render(
 
 [**Încercați-l pe CodePen**](https://codepen.io/gaearon/pen/KgQpJd?editors=0010)
 
-Next, we'll make the `Clock` set up its own timer and update itself every second.
+Apoi, vom face componenta `Clock` să-și creeze propriul cronometru și să se actualizeze la fiecare secundă.
 
-## Adding Lifecycle Methods to a Class {#adding-lifecycle-methods-to-a-class}
+## Adăugarea metodelor ciclului de viață la o clasă {#adding-lifecycle-methods-to-a-class}
 
 In applications with many components, it's very important to free up resources taken by the components when they are destroyed.
 
