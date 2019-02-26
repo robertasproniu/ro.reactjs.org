@@ -1,6 +1,6 @@
 ---
 id: state-and-lifecycle
-title: State and Lifecycle
+title: Starea și Ciclul de viață
 permalink: docs/state-and-lifecycle.html
 redirect_from:
   - "docs/interactivity-and-dynamic-uis.html"
@@ -8,9 +8,9 @@ prev: components-and-props.html
 next: handling-events.html
 ---
 
-This page introduces the concept of state and lifecycle in a React component. You can find a [detailed component API reference here](/docs/react-component.html).
+Această pagină introduce conceptul de stare și ciclu de viață al unei componente React. Puteți găsi aici o [referință detaliată a API-ului componentei](/docs/react-component.html).
 
-Consider the ticking clock example from [one of the previous sections](/docs/rendering-elements.html#updating-the-rendered-element). In [Rendering Elements](/docs/rendering-elements.html#rendering-an-element-into-the-dom), we have only learned one way to update the UI. We call `ReactDOM.render()` to change the rendered output:
+Considerați exemplul cronometrului dat în [una din secțiunile anterioare](/docs/rendering-elements.html#updating-the-rendered-element). În [Randarea Elementelor](/docs/rendering-elements.html#rendering-an-element-into-the-dom), am învățat doar o modalitate de a actualiza interfața utilizator. Apelam `ReactDOM.render()` pentru a schimba conținutul elementului afisat:
 
 ```js{8-11}
 function tick() {
@@ -29,11 +29,11 @@ function tick() {
 setInterval(tick, 1000);
 ```
 
-[**Try it on CodePen**](https://codepen.io/gaearon/pen/gwoJZk?editors=0010)
+[**Încercați-l pe CodePen**](https://codepen.io/gaearon/pen/gwoJZk?editors=0010)
 
-In this section, we will learn how to make the `Clock` component truly reusable and encapsulated. It will set up its own timer and update itself every second.
+În această secțiune vom învăța cum să transformăm componenta `Clock` într-adevăr reutilizabilă și încapsulată. Aceasta va avea propriul cronometru și se va actualiza la fiecare secundă.
 
-We can start by encapsulating how the clock looks:
+Putem începe prin încapsularea la cum va arata ceasul:
 
 ```js{3-6,12}
 function Clock(props) {
@@ -55,11 +55,11 @@ function tick() {
 setInterval(tick, 1000);
 ```
 
-[**Try it on CodePen**](https://codepen.io/gaearon/pen/dpdoYR?editors=0010)
+[**Încercați-l pe CodePen**](https://codepen.io/gaearon/pen/dpdoYR?editors=0010)
 
-However, it misses a crucial requirement: the fact that the `Clock` sets up a timer and updates the UI every second should be an implementation detail of the `Clock`.
+Cu toate acestea, este omisă o cerință crucială: faptul că `Clock` stabilește un cronometru și actualizează interfața de utilizator la fiecare secundă, acesta ar trebui să fie un detaliu de implementare al componentei `Clock`.
 
-Ideally we want to write this once and have the `Clock` update itself:
+În mod ideal, vrem să apelam o singura dată componenta `Clock`, iar aceasta să se actualizeze singură:
 
 ```js{2}
 ReactDOM.render(
@@ -68,25 +68,25 @@ ReactDOM.render(
 );
 ```
 
-To implement this, we need to add "state" to the `Clock` component.
+Pentru a implementa acest lucru, trebuie să adăugăm "stare" la componenta `Clock`.
 
-State is similar to props, but it is private and fully controlled by the component.
+Starea este similară cu proprietățile, numai că este privată și este controlată în totalitate de componentă.
 
-We [mentioned before](/docs/components-and-props.html#functional-and-class-components) that components defined as classes have some additional features. Local state is exactly that: a feature available only to classes.
+Am [menționat anterior](/docs/components-and-props.html#functional-and-class-components) că acele componente definite ca și clase au câteva caracteristici suplimentare. Starea locală este exact: acea caracteristică disponibilă numai pentru clase.
 
-## Converting a Function to a Class {#converting-a-function-to-a-class}
+## Conversia unei funcții într-o clasă {#converting-a-function-to-a-class}
 
-You can convert a function component like `Clock` to a class in five steps:
+Puteți converti o componentă de tip funcție ca și `Clock` într-o clasă în cinci pași:
 
-1. Create an [ES6 class](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes), with the same name, that extends `React.Component`.
+1. Creați o [clasă ES6](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes), cu același nume, care extinde `React.Component`.
 
-2. Add a single empty method to it called `render()`.
+2. Adăugați o singură metodă goală numită `render()`.
 
-3. Move the body of the function into the `render()` method.
+3. Mutați corpul funcției în metoda `render()`.
 
-4. Replace `props` with `this.props` in the `render()` body.
+4. Înlocuiți `props` cu `this.props` în corpul` render()`.
 
-5. Delete the remaining empty function declaration.
+5. Ștergeți declarația funcției goale rămase.
 
 ```js
 class Clock extends React.Component {
@@ -101,17 +101,17 @@ class Clock extends React.Component {
 }
 ```
 
-[**Try it on CodePen**](https://codepen.io/gaearon/pen/zKRGpo?editors=0010)
+[**Încercați-l pe CodePen**](https://codepen.io/gaearon/pen/zKRGpo?editors=0010)
 
-`Clock` is now defined as a class rather than a function.
+`Clock` este acum definită mai degrabă ca o clasă decât ca o funcție.
 
-The `render` method will be called each time an update happens, but as long as we render `<Clock />` into the same DOM node, only a single instance of the `Clock` class will be used. This lets us use additional features such as local state and lifecycle methods.
+Metoda `render` va fi apelată de fiecare dată când are loc o actualizare, dar atâta timp cât afisam `<Clock />` în același nod DOM, va fi utilizată doar o singură instanță a clasei` Clock`. Acest lucru ne permite să folosim funcții suplimentare, cum ar fi metodele locale de stare și ciclul de viață.
 
-## Adding Local State to a Class {#adding-local-state-to-a-class}
+## Adăugarea de stare locală la o clasă {#adding-local-state-to-a-class}
 
-We will move the `date` from props to state in three steps:
+Vom muta `date` din proprietăți către stare în trei pași:
 
-1) Replace `this.props.date` with `this.state.date` in the `render()` method:
+1) Înlocuiți `this.props.date` cu `this.state.date` în metoda `render()`:
 
 ```js{6}
 class Clock extends React.Component {
@@ -126,7 +126,7 @@ class Clock extends React.Component {
 }
 ```
 
-2) Add a [class constructor](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes#Constructor) that assigns the initial `this.state`:
+2) Adăugați un [constructor de clasă](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes#Constructor) care asignează `this.state` inițial:
 
 ```js{4}
 class Clock extends React.Component {
@@ -146,7 +146,7 @@ class Clock extends React.Component {
 }
 ```
 
-Note how we pass `props` to the base constructor:
+Rețineți modul trimitem `props` la constructorul de bază:
 
 ```js{2}
   constructor(props) {
@@ -155,9 +155,9 @@ Note how we pass `props` to the base constructor:
   }
 ```
 
-Class components should always call the base constructor with `props`.
+Componentele clasă ar trebui sa apeleze construcorul de bază cu `props`.
 
-3) Remove the `date` prop from the `<Clock />` element:
+3) Stergeti proprietatea `date` din elementul `<Clock />`:
 
 ```js{2}
 ReactDOM.render(
@@ -166,9 +166,9 @@ ReactDOM.render(
 );
 ```
 
-We will later add the timer code back to the component itself.
+Mai târziu vom adăuga codul pentru ceas înapoi în componentă.
 
-The result looks like this:
+Rezultatul arată astfel:
 
 ```js{2-5,11,18}
 class Clock extends React.Component {
@@ -193,7 +193,7 @@ ReactDOM.render(
 );
 ```
 
-[**Try it on CodePen**](https://codepen.io/gaearon/pen/KgQpJd?editors=0010)
+[**Încercați-l pe CodePen**](https://codepen.io/gaearon/pen/KgQpJd?editors=0010)
 
 Next, we'll make the `Clock` set up its own timer and update itself every second.
 
